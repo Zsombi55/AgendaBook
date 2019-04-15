@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+	<title>Agenda Book</title>
+	<link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body>
+	<!-- <header></header>
+	<main></main>
+	<footer></footer> -->
+	
+	<div>
+		<input typr="text" placeholder="Search...">
+		<button>Search</button>
+	</div>
+	
+	<table border="1" id="agenda">
+		<thead>
+			<tr>
+				<th>Faimly Name</th>
+				<th>Given Name</th>
+				<th>Phone Number</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- <tr>
+				<td>Matei</td>
+				<td>Nicolae</td>
+				<td>1010101010</td>
+			</tr> -->
+		</tbody>
+		<tfoot>
+			<tr>
+				<td><input type="text" placeholder="Family Name" required="required" name="familyName"></td>
+				<td><input type="text" placeholder="Given Name" required="required" name="givenName"></td>
+				<td><input type="text" placeholder="Phone Number" required="required" name="phoneNumber"></td>
+				<td><button type="submit" onclick="savePerson()">Save</button></td>
+			</tr>
+		</tfoot>
+	</table>
+	
+	<script src="javascripts/agenda.js"></script>
+</body>
+</html>

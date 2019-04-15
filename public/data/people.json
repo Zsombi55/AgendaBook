@@ -1,0 +1,17 @@
+[
+	{
+		"familyName": "Matei",
+		"givenName": "Nicolae",
+		"phoneNumber": "1010101010"
+	},
+	{
+		"familyName": "Ilie",
+		"givenName": "Andrei",
+		"phoneNumber": "0123456789"
+	},
+	{
+		"familyName": "Mitrea",
+		"givenName": "Razvan",
+		"phoneNumber": "9876543210"
+	}
+]
