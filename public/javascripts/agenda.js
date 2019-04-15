@@ -2,6 +2,16 @@
 
 var allPeople = [];
 
+var APIURL = {
+	// ADD: "data/add.json"
+	ADD: "users/add"
+};
+
+var APIMETHOD = {
+	// ADD: "GET"
+	ADD: "POST"
+};
+
 // r = response, response type
 fetch("data/people.json").then(function(r){
 	return r.json();
@@ -45,18 +55,21 @@ function savePerson(){
 
 function submitNewPerson(familyName, givenName, phoneNumber) {
 	console.warn("save new person: ", familyName + " " + givenName + " " + phoneNumber);
-	/* fetch("data/add.json", {
-		method: "POST",
-		body: JSON.stringify({
+	
+	var body = null;
+	
+	if(APIMETHOD.ADD === "POST"){
+		body = JSON.stringify({
 			familyName: familyName,
 			givenName: givenName,
 			phoneNumber: phoneNumber
-		})
-	}); */
-	var body = null;
-	fetch("data/add.json", {
-		method: "GET",
-		body: body
+		});
+	}
+
+	fetch(APIURL.ADD, {
+		method: APIMETHOD.ADD,
+		body: body,
+		headers: {"Content-Type": "application/json"}
 	}).then(function(response){
 		return response.json();
 	}).then(function(status){
