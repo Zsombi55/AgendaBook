@@ -40,7 +40,7 @@ router.post('/add', function(req, res, next) {
 router.delete('/delete', function(req, res, next) {
   var id = req.body.id;
   
-  console.warn("Remove: ", person.id);
+  console.warn("Remove: ", id);
 
   // var strPeople = fs.readFileSync("./public/data/people.json");
   // var people = JSON.parse(strPeople);
