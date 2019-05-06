@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = express.writeFileSync();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -12,7 +13,21 @@ router.post('/add', function(req, res, next) {
   var givenName = req.body.givenName;
   var phoneNumber = req.body.phoneNumber;
   
+  console.warn("Add: ", familyName, givenName, phoneNumber);
   console.warn("Add: ", req.body.givenName);
+  
+  var people = require("../public/data/people.json");
+
+  people.push({
+    familyName,
+    givenName,
+    phoneNumber
+  });
+
+  var str = JSON.stringify(people, null, 2);
+  fs = writeFileSync("./public/data/people.json", str);
+
+  // TODO: save this data in the "people.json" file.
   res.json({
     success: true,
     message: "TODO !"
