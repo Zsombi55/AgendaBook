@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var fs = express.writeFileSync();
+var fs = require("fs"); // fs - file system
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -16,7 +16,9 @@ router.post('/add', function(req, res, next) {
   console.warn("Add: ", familyName, givenName, phoneNumber);
   console.warn("Add: ", req.body.givenName);
   
-  var people = require("../public/data/people.json");
+  // var strPeople = fs.readFileSync("./public/data/people.json");
+  // var people = JSON.parse(strPeople);
+  var people = require("../public/data/people.json"); // get the json type text file contents.
 
   people.push({
     familyName,
@@ -24,8 +26,8 @@ router.post('/add', function(req, res, next) {
     phoneNumber
   });
 
-  var str = JSON.stringify(people, null, 2);
-  fs = writeFileSync("./public/data/people.json", str);
+  var str = JSON.stringify(people, null, 2); // turn the acquired contents into string.
+  fs = writeFileSync("./public/data/people.json", str); // delete the file's old content and rewrite with the updated.
 
   // TODO: save this data in the "people.json" file.
   res.json({

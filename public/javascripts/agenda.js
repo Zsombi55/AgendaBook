@@ -31,7 +31,10 @@ function display(people){
 				<td>${person.familyName}</td>
 				<td>${person.givenName}</td>
 				<td>${person.phoneNumber}</td>
-				<td></td>
+				<td>
+					<a href="#">&#10006;</a>
+					<a href="#">&#9998;</a>
+				</td>
 			</tr>
 		`;
 	});
