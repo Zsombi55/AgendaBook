@@ -15,7 +15,7 @@ router.post('/add', function(req, res, next) {
   
   console.warn("Add: ", familyName, givenName, phoneNumber);
   console.warn("Add: ", req.body.givenName);
-  
+
   // var strPeople = fs.readFileSync("./public/data/people.json");
   // var people = JSON.parse(strPeople);
   var people = require("../public/data/people.json"); // get the json type text file contents.
@@ -33,6 +33,29 @@ router.post('/add', function(req, res, next) {
   res.json({
     success: true,
     message: "TODO !"
+  });
+});
+
+// http://localhost:3000/users/ delete
+router.delete('/delete', function(req, res, next) {
+  var id = req.body.id;
+  
+  console.warn("Remove: ", person.id);
+
+  // var strPeople = fs.readFileSync("./public/data/people.json");
+  // var people = JSON.parse(strPeople);
+  var people = require("../public/data/people.json"); // get the json type text file contents.
+
+  var remainingPeople = people.filter(function(person) {
+    return person.id != id;
+  });
+
+  var str = JSON.stringify(remainingPeople, null, 2); // turn the acquired contents into string.
+  fs.writeFileSync("./public/data/people.json", str); // delete the file's old content and rewrite with the updated.
+
+  res.json({
+    success: true,
+    message: "DONE."
   });
 });
 

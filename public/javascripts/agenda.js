@@ -4,12 +4,14 @@ var allPeople = [];
 
 var APIURL = {
 	// ADD: "data/add.json"
-	ADD: "users/add"
+	ADD: "users/add",
+	DELETE: "users/delete"
 };
 
 var APIMETHOD = {
 	// ADD: "GET"
-	ADD: "POST"
+	ADD: "POST",
+	DELETE: "DELETE"
 };
 
 // r = response, response type
@@ -81,7 +83,7 @@ function submitNewPerson(familyName, givenName, phoneNumber) {
 			console.warn("Not saved!", status);
 		}
 	});
-};
+}
 
 function inlineAddPerson(familyName, givenName, phoneNumber) {
 	console.log("data: ", familyName + " " + givenName + " " + phoneNumber);
@@ -94,8 +96,37 @@ function inlineAddPerson(familyName, givenName, phoneNumber) {
 	display(allPeople);
 }
 
-function deletePerson() {
-	console.warn("TODO: Delete person.");
+function inlineDeletePerson(id) {
+	console.warn("Refresh page!", id);
+
+	allPeople = allPeople.filter(function(person){
+		return person.id != id;
+	});
+	display(allPeople);
+}
+
+function deletePerson(id) {
+	var body = null;
+	
+	if(APIMETHOD.DELETE === "DELETE"){
+		// body = JSON.stringify({ id: id });
+		body = JSON.stringify({ id });
+	}
+
+	fetch(APIURL.DELETE, {
+		method: APIMETHOD.DELETE,
+		body: body,
+		headers: {"Content-Type": "application/json"}
+	}).then(function(response){
+		return response.json();
+	}).then(function(status){
+		if(status.success){
+			console.warn("Removed.", status);
+			inlineDeletePerson(id);
+		} else {
+			console.warn("Not removed!", status);
+		}
+	});
 }
 
 // Event listener.
