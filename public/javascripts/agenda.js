@@ -27,19 +27,17 @@ fetch("data/people.json").then(function(r){
 function display(people){
 	var list = people.map(function(person){
 		return `
-			<tr>
+			<tr data-id="${person.id}">
 				<td>${person.familyName}</td>
 				<td>${person.givenName}</td>
 				<td>${person.phoneNumber}</td>
 				<td>
-					<a href="#">&#10006;</a>
-					<a href="#">&#9998;</a>
+					<a href="#" class="delete">&#10006;</a>
+					<a href="#" class="edit">&#9998;</a>
 				</td>
 			</tr>
 		`;
 	});
-	
-	console.log(list);
 	
 	document.querySelector("#agenda tbody").innerHTML = list.join("");
 }
@@ -95,3 +93,26 @@ function inlineAddPerson(familyName, givenName, phoneNumber) {
 	});
 	display(allPeople);
 }
+
+function deletePerson() {
+	console.warn("TODO: Delete person.");
+}
+
+// Event listener.
+function initEvents() {
+	const tbody = document.querySelector("#agenda tbody");
+
+	tbody.addEventListener("click", function(e) {
+		if (e.target.className == "delete") {
+			const tr = e.target.parentNode.parentNode;
+			const id = tr.getAttribute("data-id");
+			
+			console.warn("Parent?", e.target.parentNode.parentNode);
+			console.warn("Parent?", id);
+
+			deletePerson(id);
+		}
+	});
+}
+
+initEvents();
