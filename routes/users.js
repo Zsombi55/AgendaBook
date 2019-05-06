@@ -27,7 +27,7 @@ router.post('/add', function(req, res, next) {
   });
 
   var str = JSON.stringify(people, null, 2); // turn the acquired contents into string.
-  fs = writeFileSync("./public/data/people.json", str); // delete the file's old content and rewrite with the updated.
+  fs.writeFileSync("./public/data/people.json", str); // delete the file's old content and rewrite with the updated.
 
   // TODO: save this data in the "people.json" file.
   res.json({
