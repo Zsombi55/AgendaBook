@@ -78,17 +78,18 @@ function submitNewPerson(familyName, givenName, phoneNumber) {
 	}).then(function(status){
 		if(status.success){
 			console.warn("Saved.", status);
-			inlineAddPerson(familyName, givenName, phoneNumber);
+			inlineAddPerson(status.id, familyName, givenName, phoneNumber);
 		} else {
 			console.warn("Not saved!", status);
 		}
 	});
 }
 
-function inlineAddPerson(familyName, givenName, phoneNumber) {
+function inlineAddPerson(id, familyName, givenName, phoneNumber) {
 	console.log("data: ", familyName + " " + givenName + " " + phoneNumber);
 
 	allPeople.push({
+		id,
 		familyName: familyName,
 		givenName: givenName,
 		phoneNumber: phoneNumber

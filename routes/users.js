@@ -20,7 +20,9 @@ router.post('/add', function(req, res, next) {
   // var people = JSON.parse(strPeople);
   var people = require("../public/data/people.json"); // get the json type text file contents.
 
+  const id = new Date().getTime();
   people.push({
+    id,
     familyName,
     givenName,
     phoneNumber
@@ -32,7 +34,8 @@ router.post('/add', function(req, res, next) {
   // TODO: save this data in the "people.json" file.
   res.json({
     success: true,
-    message: "TODO !"
+    id,
+    message: "Done."
   });
 });
 
