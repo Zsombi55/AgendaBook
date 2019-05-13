@@ -39,6 +39,43 @@ router.post('/add', function(req, res, next) {
   });
 });
 
+// http://localhost:3000/users/update
+router.put('/update', function(req, res, next) {
+  var id = req.body.id;
+  var familyName = req.body.familyName;
+  var givenName = req.body.givenName;
+  var phoneNumber = req.body.phoneNumber;
+  
+  console.warn("Update: ", id, familyName, givenName, phoneNumber);
+  console.warn("Body ID (Update): ", req.body.id);
+
+  // var strPeople = fs.readFileSync("./public/data/people.json");
+  // var people = JSON.parse(strPeople);
+  var people = require("../public/data/people.json"); // get the json type text file contents.
+
+  // Update
+  /* const person = people.find(function(p) {
+    return p.id == id;
+  }); */
+  const person = people.find((p) => {
+    return p.id == id;
+  });
+
+  person.familyName = familyName;
+  person.givenName = givenName;
+  person.phoneNumber = phoneNumber;
+
+  var str = JSON.stringify(people, null, 2); // turn the acquired contents into string.
+  fs.writeFileSync("./public/data/people.json", str); // delete the file's old content and rewrite with the updated.
+
+  // TODO: save this data in the "people.json" file.
+  res.json({
+    success: true,
+    id,
+    message: "Done."
+  });
+});
+
 // http://localhost:3000/users/ delete
 router.delete('/delete', function(req, res, next) {
   var id = req.body.id;

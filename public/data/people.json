@@ -22,5 +22,11 @@
     "familyName": "Mojo",
     "givenName": "Jojo",
     "phoneNumber": "0123456789"
+  },
+  {
+    "id": 1557770101859,
+    "familyName": "Varga",
+    "givenName": "Zsombor",
+    "phoneNumber": "lala"
   }
 ]

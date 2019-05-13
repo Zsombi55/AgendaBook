@@ -4,14 +4,20 @@ var editingPersonsId;
 var allPeople = [];
 
 var APIURL = {
+	CREATE: "...",
+	READ: "...",
 	// ADD: "data/add.json"
 	ADD: "users/add",
+	UPDATE: "users/update",
 	DELETE: "users/delete"
 };
 
 var APIMETHOD = {
+	CREATE: "POST",
+	READ: "GET",
 	// ADD: "GET"
 	ADD: "POST",
+	UPDATE: "PUT",
 	DELETE: "DELETE"
 };
 
@@ -45,7 +51,6 @@ function display(people){
 	document.querySelector("#agenda tbody").innerHTML = list.join("");
 }
 
-// TODO:: clear input boxes upon saving an entry.
 function savePerson(){
 	console.log("Save person.");
 
@@ -55,32 +60,53 @@ function savePerson(){
 	var phoneNumber = document.querySelector("[name=phoneNumber]").value;
 	console.warn("save person data: ", familyName + " " + givenName + " " + phoneNumber);
 
-	submitNewPerson(familyName, givenName, phoneNumber);
+	if(editingPersonsId) {
+		submitEditedPerson(editingPersonsId, familyName, givenName, phoneNumber);
+	} else {
+		submitNewPerson(familyName, givenName, phoneNumber);
+	}
 }
 
 function submitNewPerson(familyName, givenName, phoneNumber) {
 	console.warn("save new person: ", familyName + " " + givenName + " " + phoneNumber);
 	
 	var body = null;
-	
-	if(APIMETHOD.ADD === "POST"){
-		body = JSON.stringify({
-			familyName: familyName,
-			givenName: givenName,
-			phoneNumber: phoneNumber
-		});
+	const method = APIMETHOD.ADD;
+
+	if(method === "POST"){
+		body = JSON.stringify({ familyName, givenName, phoneNumber });
 	}
 
-	fetch(APIURL.ADD, {
-		method: APIMETHOD.ADD,
-		body: body,
-		headers: {"Content-Type": "application/json"}
+	fetch(APIURL.ADD, { method, body, headers: {"Content-Type": "application/json"}
 	}).then(function(response){
 		return response.json();
 	}).then(function(status){
 		if(status.success){
 			console.warn("Saved.", status);
 			inlineAddPerson(status.id, familyName, givenName, phoneNumber);
+		} else {
+			console.warn("Not saved!", status);
+		}
+	});
+}
+
+function submitEditedPerson(id, familyName, givenName, phoneNumber) {
+	console.warn("Save edited person: ", id + " " + familyName + " " + givenName + " " + phoneNumber);
+	
+	var body = null;
+	const method = APIMETHOD.UPDATE;
+
+	if(method === "PUT"){
+		body = JSON.stringify({ id, familyName, givenName, phoneNumber });
+	}
+
+	fetch(APIURL.UPDATE, { method, body, headers: {"Content-Type": "application/json"}
+	}).then(function(response){
+		return response.json();
+	}).then(function(status){
+		if(status.success){
+			console.warn("Saved.", status);
+			inlineEditPerson(id, familyName, givenName, phoneNumber);
 		} else {
 			console.warn("Not saved!", status);
 		}
@@ -97,6 +123,24 @@ function inlineAddPerson(id, familyName, givenName, phoneNumber) {
 		phoneNumber: phoneNumber
 	});
 	display(allPeople);
+
+	document.querySelector("[name=familyName]").value = "";
+	document.querySelector("[name=givenName]").value = "";
+	document.querySelector("[name=phoneNumber]").value = "";
+}
+
+function inlineEditPerson(id, familyName, givenName, phoneNumber) {
+	console.log("Edited Data: ", id + " " + familyName + " " + givenName + " " + phoneNumber);
+
+	window.location.reload(); // reload the page and put the new data from memory to file.
+	
+	display(allPeople);
+
+	editingPersonsId = "";
+
+	document.querySelector("[name=familyName]").value = "";
+	document.querySelector("[name=givenName]").value = "";
+	document.querySelector("[name=phoneNumber]").value = "";
 }
 
 function inlineDeletePerson(id) {
