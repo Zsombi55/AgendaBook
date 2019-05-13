@@ -44,6 +44,7 @@ function display(people){
 	document.querySelector("#agenda tbody").innerHTML = list.join("");
 }
 
+// TODO:: clear input boxes upon saving an entry.
 function savePerson(){
 	console.log("Save person.");
 
@@ -130,6 +131,17 @@ function deletePerson(id) {
 	});
 }
 
+const editPerson = function(id) {
+	var person = allPeople.find(function(p){
+		return p.id == id;
+	});
+	console.warn("Found: ", person);
+
+	document.querySelector("[name=familyName]").value = person.familyName;
+	document.querySelector("[name=givenName]").value = person.givenName;
+	document.querySelector("[name=phoneNumber]").value = person.phoneNumber;
+};
+
 // Event listener.
 function initEvents() {
 	const tbody = document.querySelector("#agenda tbody");
@@ -143,6 +155,13 @@ function initEvents() {
 			console.warn("Parent?", id);
 
 			deletePerson(id);
+		} else if(e.target.className == "edit") {
+			const tr = e.target.parentNode.parentNode;
+			const id = tr.getAttribute("data-id");
+
+			console.warn("edit", id);
+
+			editPerson(id);
 		}
 	});
 }
