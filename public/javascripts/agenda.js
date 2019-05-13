@@ -1,5 +1,6 @@
 // console.log("Yesss!");
 
+var editingPersonsId;
 var allPeople = [];
 
 var APIURL = {
@@ -140,6 +141,7 @@ const editPerson = function(id) {
 	document.querySelector("[name=familyName]").value = person.familyName;
 	document.querySelector("[name=givenName]").value = person.givenName;
 	document.querySelector("[name=phoneNumber]").value = person.phoneNumber;
+	editingPersonsId = id;
 };
 
 // Event listener.
