@@ -188,11 +188,19 @@ const editPerson = function(id) {
 	editingPersonsId = id;
 };
 
-const searchPerson = () => {
-	
+const searchPerson = value => {	/*	If the array only ever has 1 value the parrentheses can be left out.	*/
+	// console.warn(searchBox);
+
+	value = value.toLowerCase().trim();
+	const filtered = allPeople.filter(person => {
+		return person.familyName.toLowerCase().includes(value) ||
+			person.givenName.toLowerCase().includes(value) ||
+			person.phoneNumber.toLowerCase().includes(value);
+	});
+	display(filtered);
 };
 
-// Event listener.
+// Event listeners, general.
 function initEvents() {
 	const tbody = document.querySelector("#agenda tbody");
 	const searchBox = document.querySelector("#search");
@@ -216,14 +224,13 @@ function initEvents() {
 		}
 	});
 
-	/* event listener */
-	//searchBox.addEventListener("input", function doThing() {
-		/* function */
-	//	console.warn("Someone wrote: " + this.value + " !")
-	//});
+	/* searchBox.addEventListener("input", function doThing() {
+		console.warn("Someone wrote: " + this.value + " !");
+	}); */
 	
-	searchBox.addEventListener("input", () => {
-		console.warn("Someone wrote: " + searchBox.value + " !")
+	searchBox.addEventListener("input", (e) => {
+		console.warn("Search input: " + e.target.value);
+		searchPerson(e.target.value);
 	});
 }
 
