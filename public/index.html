@@ -11,7 +11,7 @@
 	<footer></footer> -->
 	
 	<div>
-		<input id="search" type="text" placeholder="Search..." autofocus>
+		<input id="search" type="text" placeholder="Search..." tabindex="1" autofocus>
 		<!-- <button>Search</button> -->
 		<label for="search">&#128270</label>
 	</div>
@@ -27,10 +27,11 @@
 		<tbody></tbody>
 		<tfoot>
 			<tr>
-				<td><input type="text" placeholder="Family Name" required="required" name="familyName"></td>
-				<td><input type="text" placeholder="Given Name" required="required" name="givenName"></td>
-				<td><input type="text" placeholder="Phone Number" required="required" name="phoneNumber"></td>
-				<td><button type="submit" onclick="savePerson()">Save</button></td>
+				<td><input type="text" placeholder="Family Name" required="required" name="familyName"tabindex="2"></td>
+				<td><input type="text" placeholder="Given Name" required="required" name="givenName"tabindex="3"></td>
+				<td><input type="text" placeholder="Phone Number" required="required" name="phoneNumber"tabindex="4"></td>
+				<td><button type="submit" onclick="savePerson()" tabindex="5">Save</button></td>
+				<div id="tabIndexReset" tabindex="0"></div>
 			</tr>
 		</tfoot>
 	</table>
