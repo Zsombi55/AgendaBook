@@ -41,8 +41,8 @@ function display(people){
 				<td>${person.givenName}</td>
 				<td>${person.phoneNumber}</td>
 				<td>
-					<a href="#" class="delete">&#10006;</a>
-					<a href="#" class="edit">&#9998;</a>
+					<a href="#" class="delete" tabindex="-1">&#10006;</a>
+					<a href="#" class="edit" tabindex="-1">&#9998;</a>
 				</td>
 			</tr>
 		`;
