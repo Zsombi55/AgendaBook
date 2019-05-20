@@ -188,9 +188,14 @@ const editPerson = function(id) {
 	editingPersonsId = id;
 };
 
+const searchPerson = () => {
+	
+};
+
 // Event listener.
 function initEvents() {
 	const tbody = document.querySelector("#agenda tbody");
+	const searchBox = document.querySelector("#search");
 
 	tbody.addEventListener("click", function(e) {
 		if (e.target.className == "delete") {
@@ -209,6 +214,16 @@ function initEvents() {
 
 			editPerson(id);
 		}
+	});
+
+	/* event listener */
+	//searchBox.addEventListener("input", function doThing() {
+		/* function */
+	//	console.warn("Someone wrote: " + this.value + " !")
+	//});
+	
+	searchBox.addEventListener("input", () => {
+		console.warn("Someone wrote: " + searchBox.value + " !")
 	});
 }
 
