@@ -5,7 +5,7 @@ var allPeople = [];
 
 var APIURL = {
 	CREATE: "...",
-	READ: "...",
+	READ: "users",
 	// ADD: "data/add.json"
 	ADD: "users/add",
 	UPDATE: "users/update",
@@ -22,7 +22,8 @@ var APIMETHOD = {
 };
 
 // r = response, response type
-fetch("data/people.json").then(function(r){
+// fetch("data/people.json").then(function(r){	// from people.json
+fetch(APIURL.READ).then(function(r){
 	return r.json();
 }).then(function(people){ // = the succesfully returned "r".
 	console.log("all people: ", people);
