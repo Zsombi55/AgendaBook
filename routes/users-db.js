@@ -63,9 +63,9 @@ router.put('/update', function(req, res, next) {
   console.warn("Remove: ", id);
   
   pool.getConnection((err, connection) => {
-    const sql = `UPDATE "contacts" 
-    SET "familyName" = "${familyName}", "givenName" = "${givenName}", "phoneNumber" = "${phoneNumber}"
-    WHERE "id" = "${id}"`;
+    const sql = `UPDATE contacts 
+    SET familyName = "${familyName}", givenName = "${givenName}", phoneNumber = "${phoneNumber}"
+    WHERE id = ${id}`;
         
     connection.query(sql, (err, results) => {
       res.json({
