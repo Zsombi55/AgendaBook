@@ -9,7 +9,7 @@ var pool  = mysql.createPool({
   database : 'agenda'
 });
 
-/* GET users listing. */
+/* GET "users" listing. */
 router.get('/', function(req, res, next) {
   pool.getConnection((err, connection) => {
     const sql = `SELECT * FROM contacts`;
@@ -78,7 +78,7 @@ router.put('/update', function(req, res, next) {
   });
 });
 
-// http://localhost:3000/users/ delete
+// http://localhost:3000/users/delete
 router.delete('/delete', function(req, res, next) {
   var id = req.body.id;
   

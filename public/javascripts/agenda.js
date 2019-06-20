@@ -1,5 +1,3 @@
-// console.log("Yesss!");
-
 var editingPersonsId;
 var allPeople = [];
 
