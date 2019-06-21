@@ -199,7 +199,7 @@ const searchPerson = value => {	/*	If the array only ever has 1 value the parren
 	display(filtered);
 };
 
-// Event listeners, general.
+// Delete, Edit & Search - Event listeners.
 function initEvents() {
 	const tbody = document.querySelector("#agenda tbody");
 	const searchBox = document.querySelector("#search");
