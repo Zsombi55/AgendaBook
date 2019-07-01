@@ -19,6 +19,56 @@ var APIMETHOD = {
 	DELETE: "DELETE"
 };
 
+const People = {	// js function packed in json obj.
+	display: function(people){
+		var list = people.map(function(person){
+			return `
+				<tr data-id="${person.id}">
+					<td>${person.familyName}</td>
+					<td>${person.givenName}</td>
+					<td>${person.phoneNumber}</td>
+					<td>
+						<a href="#" class="delete" tabindex="-1">&#10006;</a>
+						<a href="#" class="edit" tabindex="-1">&#9998;</a>
+					</td>
+				</tr>
+			`;
+		});
+		
+		document.querySelector("#agenda tbody").innerHTML = list.join("");
+	},
+
+	save: function(){
+		console.log("Save person.");
+	
+		// var givenName = document.getElementsByName("givenName")[0].value;
+		var familyName = document.querySelector("[name=familyName]").value;
+		var givenName = document.querySelector("[name=givenName]").value;
+		var phoneNumber = document.querySelector("[name=phoneNumber]").value;
+		console.warn("save person data: ", familyName + " " + givenName + " " + phoneNumber);
+	
+		if(editingPersonsId) {
+			submitEditedPerson(editingPersonsId, familyName, givenName, phoneNumber);
+		} else {
+			submitNewPerson(familyName, givenName, phoneNumber);
+		}
+	},
+
+	inlineAdd: function(id, familyName, givenName, phoneNumber) {
+		allPeople.push({
+			id,
+			familyName: familyName,
+			givenName: givenName,
+			phoneNumber: phoneNumber
+		});
+		People.display(allPeople);
+	
+		document.querySelector("[name=familyName]").value = "";
+		document.querySelector("[name=givenName]").value = "";
+		document.querySelector("[name=phoneNumber]").value = "";
+	}
+};
+
 // r = response, response type
 // fetch("data/people.json").then(function(r){	// from people.json
 fetch(APIURL.READ).then(function(r){
@@ -26,13 +76,13 @@ fetch(APIURL.READ).then(function(r){
 }).then(function(people){ // = the succesfully returned "r".
 	console.log("all people: ", people);
 	allPeople = people;
-	display(people);
+	People.display(people);	// calling the json packed function.
 	/* return [people[0].givenName, people[0].familyName, people[0].phoneNumber];
 }).then(function(p){ //= the succesfully returned "people[0].givenName".
 	console.log("Cine o fi P? ", p); */
 });
 
-function display(people){
+/* function display(people){
 	var list = people.map(function(person){
 		return `
 			<tr data-id="${person.id}">
@@ -48,9 +98,9 @@ function display(people){
 	});
 	
 	document.querySelector("#agenda tbody").innerHTML = list.join("");
-}
+} */
 
-function savePerson(){
+/* function savePerson(){
 	console.log("Save person.");
 
 	// var givenName = document.getElementsByName("givenName")[0].value;
@@ -64,7 +114,7 @@ function savePerson(){
 	} else {
 		submitNewPerson(familyName, givenName, phoneNumber);
 	}
-}
+} */
 
 function submitNewPerson(familyName, givenName, phoneNumber) {
 	console.warn("save new person: ", familyName + " " + givenName + " " + phoneNumber);
@@ -82,7 +132,7 @@ function submitNewPerson(familyName, givenName, phoneNumber) {
 	}).then(function(status){
 		if(status.success){
 			console.warn("Saved.", status);
-			inlineAddPerson(status.id, familyName, givenName, phoneNumber);
+			People.inlineAdd(status.id, familyName, givenName, phoneNumber);
 		} else {
 			console.warn("Not saved!", status);
 		}
@@ -112,7 +162,7 @@ function submitEditedPerson(id, familyName, givenName, phoneNumber) {
 	});
 }
 
-function inlineAddPerson(id, familyName, givenName, phoneNumber) {
+/* function inlineAddPerson(id, familyName, givenName, phoneNumber) {
 	console.log("data: ", familyName + " " + givenName + " " + phoneNumber);
 
 	allPeople.push({
@@ -126,14 +176,14 @@ function inlineAddPerson(id, familyName, givenName, phoneNumber) {
 	document.querySelector("[name=familyName]").value = "";
 	document.querySelector("[name=givenName]").value = "";
 	document.querySelector("[name=phoneNumber]").value = "";
-}
+} */
 
 function inlineEditPerson(id, familyName, givenName, phoneNumber) {
 	console.log("Edited Data: ", id + " " + familyName + " " + givenName + " " + phoneNumber);
 
 	window.location.reload(); // reload the page and put the new data from memory to file.
 	
-	display(allPeople);
+	People.display(allPeople);
 
 	editingPersonsId = "";
 
@@ -148,7 +198,7 @@ function inlineDeletePerson(id) {
 	allPeople = allPeople.filter(function(person){
 		return person.id != id;
 	});
-	display(allPeople);
+	People.display(allPeople);
 }
 
 function deletePerson(id) {
@@ -196,7 +246,7 @@ const searchPerson = value => {	/*	If the array only ever has 1 value the parren
 			person.givenName.toLowerCase().includes(value) ||
 			person.phoneNumber.toLowerCase().includes(value);
 	});
-	display(filtered);
+	People.display(filtered);
 };
 
 // Delete, Edit & Search - Event listeners.

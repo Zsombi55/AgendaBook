@@ -4,6 +4,7 @@
 <head>
 	<title>Agenda Book</title>
 	<link rel="stylesheet" href="stylesheets/style.css">
+	<link rel="icon" href="data:,"> <!--Hack to prevent "the favicon error".-->
 </head>
 <body>
 	<!-- <header></header>
@@ -30,7 +31,8 @@
 				<td><input type="text" placeholder="Family Name" required="required" name="familyName"tabindex="2"></td>
 				<td><input type="text" placeholder="Given Name" required="required" name="givenName"tabindex="3"></td>
 				<td><input type="text" placeholder="Phone Number" required="required" name="phoneNumber"tabindex="4"></td>
-				<td><button type="submit" onclick="savePerson()" tabindex="5">Save</button></td>
+				<!--<td><button type="submit" onclick="savePerson()" tabindex="5">Save</button></td>-->
+				<td><button type="submit" onclick="People.save()" tabindex="5">Save</button></td>
 				<div id="tabIndexReset" tabindex="0"></div>
 			</tr>
 		</tfoot>
