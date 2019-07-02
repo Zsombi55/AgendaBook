@@ -59,7 +59,7 @@ const People = {
 
 	inlineAdd: function(id, familyName, givenName, phoneNumber) {
 		//allPeople.push({
-		this.push({	// this -> const People.
+		this.list.push({	// this -> const People, list -> allPeople[].
 			id,
 			familyName: familyName,
 			givenName: givenName,
@@ -67,7 +67,7 @@ const People = {
 		});
 		//People.display(allPeople);
 		this.display(this.list);
-	
+
 		document.querySelector("[name=familyName]").value = "";
 		document.querySelector("[name=givenName]").value = "";
 		document.querySelector("[name=phoneNumber]").value = "";
@@ -202,9 +202,16 @@ function submitEditedPerson(id, familyName, givenName, phoneNumber) {
 function inlineEditPerson(id, familyName, givenName, phoneNumber) {
 	console.log("Edited Data: ", id + " " + familyName + " " + givenName + " " + phoneNumber);
 
-	window.location.reload(); // reload the page and put the new data from memory to file.
-	
-	People.display(allPeople);
+	//window.location.reload(); // reload the page and put the new data from memory to file.
+	const person = People.list.find((p) => {
+		return p.id == id;
+	});
+	person.givenName = givenName;
+	person.familyName = familyName;
+	person.phoneNumber = phoneNumber;
+
+	//People.display(allPeople);
+	People.display(People.list);
 
 	editingPersonsId = "";
 
@@ -247,7 +254,7 @@ function deletePerson(id) {
 }
 
 const editPerson = function(id) {
-	var person = allPeople.find(function(p){
+	var person = People.list.find(function(p){
 		return p.id == id;
 	});
 	console.warn("Found: ", person);
@@ -273,7 +280,6 @@ const editPerson = function(id) {
 // Delete, Edit & Search - Event listeners.
 function initEvents() {
 	const tbody = document.querySelector("#agenda tbody");
-	const searchBox = document.querySelector("#search");
 
 	tbody.addEventListener("click", function(e) {
 		if (e.target.className == "delete") {
@@ -298,9 +304,10 @@ function initEvents() {
 		console.warn("Someone wrote: " + this.value + " !");
 	}); */
 	
+	const searchBox = document.querySelector("#search");
 	searchBox.addEventListener("input", (e) => {
 		console.warn("Search input: " + e.target.value);
-		searchPerson(e.target.value);
+		People.search(e.target.value);
 	});
 }
 
