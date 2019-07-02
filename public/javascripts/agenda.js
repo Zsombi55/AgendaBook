@@ -1,11 +1,11 @@
 var editingPersonsId;
-var allPeople = [];
+//var allPeople = [];
 
 var APIURL = {
 	CREATE: "...",
-	READ: "users",
+	READ: "users", // 'data/people.json'
 	// ADD: "data/add.json"
-	ADD: "users/add",
+	ADD: "users/add", // TODO use CREATE
 	UPDATE: "users/update",
 	DELETE: "users/delete"
 };
@@ -14,12 +14,15 @@ var APIMETHOD = {
 	CREATE: "POST",
 	READ: "GET",
 	// ADD: "GET"
-	ADD: "POST",
+	ADD: "POST", // TODO use CREATE
 	UPDATE: "PUT",
 	DELETE: "DELETE"
 };
 
-const People = {	// js function packed in json obj.
+// JS functions packed in a json object -> like a class in OOP languages, eg. C#.
+const People = {
+	list: [],	// old allPeople list object variable.
+
 	display: function(people){
 		var list = people.map(function(person){
 			return `
@@ -55,17 +58,38 @@ const People = {	// js function packed in json obj.
 	},
 
 	inlineAdd: function(id, familyName, givenName, phoneNumber) {
-		allPeople.push({
+		//allPeople.push({
+		this.push({	// this -> const People.
 			id,
 			familyName: familyName,
 			givenName: givenName,
 			phoneNumber: phoneNumber
 		});
-		People.display(allPeople);
+		//People.display(allPeople);
+		this.display(this.list);
 	
 		document.querySelector("[name=familyName]").value = "";
 		document.querySelector("[name=givenName]").value = "";
 		document.querySelector("[name=phoneNumber]").value = "";
+	},
+
+	inlineDelete: function(id) {	// A generalised function usable on any "parent" variable object.
+		console.warn("Refresh page!", id);
+	
+		this.list = this.list.filter(function(element){	// element -> person.
+			return element.id != id;
+		});
+		this.display(this.list);
+	},
+
+	search: function(value) {	/*	If the array only ever has 1 value the parrentheses can be left out.	*/
+		value = value.toLowerCase().trim();
+		const filtered = this.list.filter(person => {
+			return person.familyName.toLowerCase().includes(value) ||
+				person.givenName.toLowerCase().includes(value) ||
+				person.phoneNumber.toLowerCase().includes(value);
+		});
+		this.display(filtered);
 	}
 };
 
@@ -75,11 +99,8 @@ fetch(APIURL.READ).then(function(r){
 	return r.json();
 }).then(function(people){ // = the succesfully returned "r".
 	console.log("all people: ", people);
-	allPeople = people;
+	People.list = people;
 	People.display(people);	// calling the json packed function.
-	/* return [people[0].givenName, people[0].familyName, people[0].phoneNumber];
-}).then(function(p){ //= the succesfully returned "people[0].givenName".
-	console.log("Cine o fi P? ", p); */
 });
 
 /* function display(people){
@@ -192,14 +213,14 @@ function inlineEditPerson(id, familyName, givenName, phoneNumber) {
 	document.querySelector("[name=phoneNumber]").value = "";
 }
 
-function inlineDeletePerson(id) {
+/* function inlineDeletePerson(id) {
 	console.warn("Refresh page!", id);
 
 	allPeople = allPeople.filter(function(person){
 		return person.id != id;
 	});
 	People.display(allPeople);
-}
+} */
 
 function deletePerson(id) {
 	var body = null;
@@ -218,7 +239,7 @@ function deletePerson(id) {
 	}).then(function(status){
 		if(status.success){
 			console.warn("Removed.", status);
-			inlineDeletePerson(id);
+			People.inlineDelete(id);
 		} else {
 			console.warn("Not removed!", status);
 		}
@@ -237,17 +258,17 @@ const editPerson = function(id) {
 	editingPersonsId = id;
 };
 
-const searchPerson = value => {	/*	If the array only ever has 1 value the parrentheses can be left out.	*/
+/* const searchPerson = value => {	/*	If the array only ever has 1 value the parrentheses can be left out.	*/
 	// console.warn(searchBox);
 
-	value = value.toLowerCase().trim();
+/*	value = value.toLowerCase().trim();
 	const filtered = allPeople.filter(person => {
 		return person.familyName.toLowerCase().includes(value) ||
 			person.givenName.toLowerCase().includes(value) ||
 			person.phoneNumber.toLowerCase().includes(value);
 	});
 	People.display(filtered);
-};
+}; */
 
 // Delete, Edit & Search - Event listeners.
 function initEvents() {
