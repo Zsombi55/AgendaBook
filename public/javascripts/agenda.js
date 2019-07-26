@@ -5,7 +5,7 @@ var APIURL = {
 	CREATE: "...",
 	READ: "users", // 'data/people.json'
 	// ADD: "data/add.json"
-	ADD: "users/add", // TODO use CREATE
+	ADD: "users/add",
 	UPDATE: "users/update",
 	DELETE: "users/delete"
 };
@@ -14,7 +14,7 @@ var APIMETHOD = {
 	CREATE: "POST",
 	READ: "GET",
 	// ADD: "GET"
-	ADD: "POST", // TODO use CREATE
+	ADD: "POST",
 	UPDATE: "PUT",
 	DELETE: "DELETE"
 };
@@ -95,8 +95,8 @@ const People = {
 
 // r = response, response type
 // fetch("data/people.json").then(function(r){	// from people.json
-fetch(APIURL.READ).then(function(r){
-	return r.json();
+fetch(APIURL.READ).then(function(resp){
+	return resp.json();
 }).then(function(people){ // = the succesfully returned "r".
 	console.log("all people: ", people);
 	People.list = people;
